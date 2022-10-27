@@ -12,7 +12,9 @@ let editFlag = false;
 let editID = "";
 // ****** EVENT LISTENERS **********
 // submit form
-form.addEventListener('submit',addItem)
+form.addEventListener('submit',addItem);
+//clear items
+clearBtn.addEventListener('click', clearItems);
 
 // ****** FUNCTIONS **********
 function addItem(e){
@@ -39,6 +41,8 @@ function addItem(e){
         list.appendChild(element);
         displayAlert('item added to list', 'success');
         container.classList.add("show-container");
+        addToLocalStorage(id,value);
+        setBackToDefault();
     }
     else if(value && editFlag){}
     else{
@@ -57,11 +61,29 @@ function displayAlert(text, action){
     },1000);
 }
 
-function setBackToDefault() {
-    grocery.value='';
+function clearItems(){
+    const items = document.querySelectorAll('.grocery-item');
+
+    if(items.length > 0){
+        items.forEach(function(item) {
+            list.removeChild(item);
+        });
+    }
+    container.classList.remove('show-container');
+    displayAlert('empty list', 'success');
+    setBackToDefault();
+    //localStorage.removeItem('list');
+}
+
+function setBackToDefault(){
+    grocery.value = '';
     editFlag = false;
-    editID
+    editID = '';
+    submitBtn.textContent = 'Submit';
+    
 }
 // ****** LOCAL STORAGE **********
-
+function addToLocalStorage(id, value){
+    console.log('added');
+}
 // ****** SETUP ITEMS **********
